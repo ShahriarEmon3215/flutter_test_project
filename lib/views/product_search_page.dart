@@ -49,37 +49,7 @@ class SearchPage extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: 50),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.white,
-                  ),
-                  height: 50,
-                  child: TextField(
-                    controller: searchTxtController,
-                    maxLines: 1,
-                    style: TextStyle(fontSize: 17),
-                    textAlign: TextAlign.start,
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            BlocProvider.of<ProductsCubit>(context).fetchPosts(
-                                searchText: searchTxtController.text,
-                                offsetValue: 0);
-                          },
-                          icon: Icon(Icons.search)),
-                      filled: true,
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                      fillColor: Colors.white,
-                      contentPadding:
-                          EdgeInsets.only(left: 15, top: 5, bottom: 5),
-                      hintText: 'Search',
-                    ),
-                  ),
-                ),
+                kSearchField(context),
                 SizedBox(height: 15),
                 Expanded(
                   child: GridView.builder(
@@ -94,99 +64,7 @@ class SearchPage extends StatelessWidget {
                       if (index < posts.length) {
                         isLoading = false;
                         Product post = posts[index];
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (routeContext) =>
-                                      ProductDetails(slag: post.slug),
-                                ));
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Column(
-                              children: [
-                                Container(
-                                    height: itemHeight / 1.7,
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child: Image.network(post.image!))),
-                                Text(
-                                  post.productName!.length > 30
-                                      ? post.productName!.substring(0, 30) +
-                                          "..."
-                                      : post.productName!,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: Colors.black87),
-                                ),
-                                Row(
-                                  children: [
-                                    Text("ক্রয় "),
-                                    Text(
-                                      post.charge!.sellingPrice != null &&
-                                              post.charge!.profit != null
-                                          ? "\u09F3" +
-                                              " ${post.charge!.sellingPrice!.floor() - post.charge!.profit!.floor()}"
-                                          : " ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: Colors.pink),
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      post.charge!.currentCharge != null
-                                          ? "\u09F3" +
-                                              " ${post.charge!.currentCharge!.floor()}"
-                                          : "",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: Colors.pink,
-                                          decoration:
-                                              TextDecoration.lineThrough),
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text("বিক্রয় "),
-                                    Text(
-                                      post.charge!.sellingPrice != null
-                                          ? "\u09F3" +
-                                              " ${post.charge!.sellingPrice!.floor()}"
-                                          : "",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                          color: Colors.pink),
-                                    ),
-                                    Spacer(),
-                                    Text("লাভ "),
-                                    Text(
-                                      post.charge!.profit != null
-                                          ? "\u09F3" +
-                                              " ${post.charge!.profit!.floor()}"
-                                          : "",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: Colors.pink,
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        );
+                        return kProductItemCard(context, post, itemHeight);
                       } else {
                         isLoading = true;
                         Timer(Duration(milliseconds: 30), () {
@@ -210,6 +88,129 @@ class SearchPage extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget kProductItemCard(
+      BuildContext context, Product post, double itemHeight) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (routeContext) => ProductDetails(slag: post.slug),
+            ));
+      },
+      child: Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          children: [
+            Container(
+                height: itemHeight / 1.7,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(post.image!))),
+            Text(
+              post.productName!.length > 30
+                  ? post.productName!.substring(0, 30) + "..."
+                  : post.productName!,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Colors.black87),
+            ),
+            Row(
+              children: [
+                Text("ক্রয় "),
+                Text(
+                  post.charge!.sellingPrice != null &&
+                          post.charge!.profit != null
+                      ? "\u09F3" +
+                          " ${post.charge!.sellingPrice!.floor() - post.charge!.profit!.floor()}"
+                      : " ",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.pink),
+                ),
+                Spacer(),
+                Text(
+                  post.charge!.currentCharge != null
+                      ? "\u09F3" + " ${post.charge!.currentCharge!.floor()}"
+                      : "",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.pink,
+                      decoration: TextDecoration.lineThrough),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                Text("বিক্রয় "),
+                Text(
+                  post.charge!.sellingPrice != null
+                      ? "\u09F3" + " ${post.charge!.sellingPrice!.floor()}"
+                      : "",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Colors.pink),
+                ),
+                Spacer(),
+                Text("লাভ "),
+                Text(
+                  post.charge!.profit != null
+                      ? "\u09F3" + " ${post.charge!.profit!.floor()}"
+                      : "",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    color: Colors.pink,
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget kSearchField(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.white,
+      ),
+      height: 50,
+      child: TextField(
+        controller: searchTxtController,
+        maxLines: 1,
+        style: TextStyle(fontSize: 17),
+        textAlign: TextAlign.start,
+        textAlignVertical: TextAlignVertical.center,
+        decoration: InputDecoration(
+          suffixIcon: IconButton(
+              onPressed: () {
+                BlocProvider.of<ProductsCubit>(context).fetchPosts(
+                    searchText: searchTxtController.text, offsetValue: 0);
+              },
+              icon: Icon(Icons.search)),
+          filled: true,
+          border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.all(Radius.circular(15))),
+          fillColor: Colors.white,
+          contentPadding: EdgeInsets.only(left: 15, top: 5, bottom: 5),
+          hintText: 'Search',
+        ),
       ),
     );
   }

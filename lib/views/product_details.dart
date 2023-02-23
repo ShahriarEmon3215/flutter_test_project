@@ -44,67 +44,9 @@ class ProductDetails extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white,
-                        ),
-                        height: 50,
-                        child: TextField(
-                          controller: searchTxtController,
-                          maxLines: 1,
-                          style: TextStyle(fontSize: 17),
-                          textAlign: TextAlign.start,
-                          textAlignVertical: TextAlignVertical.center,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                                onPressed: () {}, icon: Icon(Icons.search)),
-                            filled: true,
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
-                            fillColor: Colors.white,
-                            contentPadding:
-                                EdgeInsets.only(left: 15, top: 5, bottom: 5),
-                            hintText: 'কাঙ্খীত পণ্যটি খুজুন ',
-                          ),
-                        ),
-                      ),
+                      kSearchField(),
                       SizedBox(height: 20),
-                      CarouselSlider(
-                          items: state.postDetails!.images!.map((i) {
-                            return Builder(
-                              builder: (BuildContext context) {
-                                return Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 5.0),
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child: Image.network(i.image!)));
-                              },
-                            );
-                          }).toList(),
-                          options: CarouselOptions(
-                            height: 300,
-                            aspectRatio: 16 / 9,
-                            viewportFraction: 0.7,
-                            initialPage: 0,
-                            enableInfiniteScroll: true,
-                            reverse: false,
-                            autoPlay: true,
-                            autoPlayInterval: Duration(seconds: 3),
-                            autoPlayAnimationDuration:
-                                Duration(milliseconds: 800),
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            enlargeCenterPage: true,
-                            enlargeFactor: 0.2,
-                            scrollDirection: Axis.horizontal,
-                          )),
+                      kProductImageSlider(state),
                       SizedBox(height: 15),
                       Text(
                         state.postDetails!.productName!,
@@ -142,113 +84,7 @@ class ProductDetails extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: 15),
-                      Container(
-                        height: 200,
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: 140,
-                              width: double.infinity,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 10),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(18),
-                                color: Colors.white,
-                              ),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "ক্রয়মূল্য : ",
-                                        style: TextStyle(
-                                            fontSize: 25,
-                                            color: Colors.pink,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Spacer(),
-                                      Text(
-                                        "\u09F3" +
-                                            " ${state.postDetails!.charge!.currentCharge!}",
-                                        style: TextStyle(
-                                            fontSize: 25,
-                                            color: Colors.pink,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "বিক্রয়মূল্য : ",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Spacer(),
-                                      Text(
-                                        "\u09F3" +
-                                            " ${state.postDetails!.charge!.sellingPrice ?? ""}",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                  Divider(thickness: 1),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "লাভ : ",
-                                        style: TextStyle(fontSize: 24),
-                                      ),
-                                      Spacer(),
-                                      Text(
-                                        "\u09F3" +
-                                            " ${state.postDetails!.charge!.profit ?? ""}",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Stack(
-                                    children: [
-                                      Container(
-                                        height: 100,
-                                        width: 100,
-                                        child: Image.asset('assets/badge.png'),
-                                      ),
-                                      Container(
-                                          height: 100,
-                                          width: 100,
-                                          child: Center(
-                                              child: Text(
-                                            " এটি\nকিনুন",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18),
-                                          ))),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      kChargeCard(state),
                       SizedBox(height: 10),
                       Text(
                         "বিস্তারিত",
@@ -267,5 +103,167 @@ class ProductDetails extends StatelessWidget {
             }
           },
         ));
+  }
+
+  Container kChargeCard(ProductDetailsLoaded state) {
+    return Container(
+      height: 200,
+      child: Stack(
+        children: [
+          Container(
+            height: 140,
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18),
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      "ক্রয়মূল্য : ",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.pink,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Spacer(),
+                    Text(
+                      "\u09F3" +
+                          " ${state.postDetails!.charge!.currentCharge!}",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.pink,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "বিক্রয়মূল্য : ",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Spacer(),
+                    Text(
+                      "\u09F3" +
+                          " ${state.postDetails!.charge!.sellingPrice ?? ""}",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+                Divider(thickness: 1),
+                Row(
+                  children: [
+                    Text(
+                      "লাভ : ",
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    Spacer(),
+                    Text(
+                      "\u09F3" + " ${state.postDetails!.charge!.profit ?? ""}",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Stack(
+                  children: [
+                    Container(
+                      height: 100,
+                      width: 100,
+                      child: Image.asset('assets/badge.png'),
+                    ),
+                    Container(
+                        height: 100,
+                        width: 100,
+                        child: Center(
+                            child: Text(
+                          " এটি\nকিনুন",
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ))),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  CarouselSlider kProductImageSlider(ProductDetailsLoaded state) {
+    return CarouselSlider(
+        items: state.postDetails!.images!.map((i) {
+          return Builder(
+            builder: (BuildContext context) {
+              return Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20)),
+                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(i.image!)));
+            },
+          );
+        }).toList(),
+        options: CarouselOptions(
+          height: 300,
+          aspectRatio: 16 / 9,
+          viewportFraction: 0.7,
+          initialPage: 0,
+          enableInfiniteScroll: true,
+          reverse: false,
+          autoPlay: true,
+          autoPlayInterval: Duration(seconds: 3),
+          autoPlayAnimationDuration: Duration(milliseconds: 800),
+          autoPlayCurve: Curves.fastOutSlowIn,
+          enlargeCenterPage: true,
+          enlargeFactor: 0.2,
+          scrollDirection: Axis.horizontal,
+        ));
+  }
+
+  Container kSearchField() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.white,
+      ),
+      height: 50,
+      child: TextField(
+        controller: searchTxtController,
+        maxLines: 1,
+        style: TextStyle(fontSize: 17),
+        textAlign: TextAlign.start,
+        textAlignVertical: TextAlignVertical.center,
+        decoration: InputDecoration(
+          suffixIcon: IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+          filled: true,
+          border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.all(Radius.circular(15))),
+          fillColor: Colors.white,
+          contentPadding: EdgeInsets.only(left: 15, top: 5, bottom: 5),
+          hintText: 'কাঙ্খীত পণ্যটি খুজুন ',
+        ),
+      ),
+    );
   }
 }
