@@ -16,7 +16,8 @@
 </td>
 <td>        </td>
 <td><img src="https://user-images.githubusercontent.com/90932124/220845394-f36179a9-33fc-440e-9cce-fe2dd0505251.jpg"  width="340" height="600"/></td>
-<td>        </td>
+</tr>
+<tr>
 <td><img src="https://user-images.githubusercontent.com/90932124/220845471-688ba641-cc1e-47e0-ada8-9bc699e452a5.jpg"  width="340" height="600"/></td>
-
+</tr>
 </table>
