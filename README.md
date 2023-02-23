@@ -1,16 +1,22 @@
-# test_project
+# flutter test project
 
-A new Flutter project.
+<h3> Features </h3>
+         <h4>products Search page</h4> 
+         <h4>Product Details page</h4>
+         <h4>Pagination on load product list</h4>
+         <h4>Fetched data from API</h4>
+         <h4>Used Bloc/Cubit for state manamgement</h4>
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+ 
+<table>
+<tr>
+<td> 
+<img src="https://user-images.githubusercontent.com/90932124/220845260-feda6add-27a1-48ac-be31-46aaa48a4b79.jpg" width="340" height="600"/>
+</td>
+<td>        </td>
+<td><img src="https://user-images.githubusercontent.com/90932124/220845394-f36179a9-33fc-440e-9cce-fe2dd0505251.jpg"  width="340" height="600"/></td>
+<td>        </td>
+<td><img src="https://user-images.githubusercontent.com/90932124/220845471-688ba641-cc1e-47e0-ada8-9bc699e452a5.jpg"  width="340" height="600"/></td>
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+</table>
