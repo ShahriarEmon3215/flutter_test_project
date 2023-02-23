@@ -5,7 +5,7 @@
          <h4>Product Details page</h4>
          <h4>Pagination on load product list</h4>
          <h4>Fetched data from API</h4>
-         <h4>Used Bloc/Cubit for state manamgement</h4>
+         <h4>Used Bloc/Cubit for state management</h4>
 
 
  
