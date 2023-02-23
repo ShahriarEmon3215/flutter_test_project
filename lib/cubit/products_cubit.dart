@@ -39,7 +39,7 @@ class ProductsCubit extends Cubit<ProductsState> {
       }
       print(offset);
 
-      final posts = (state as ProductsLoading).oldPosts;
+      final posts = (state as ProductsLoading).oldProducts;
       posts!.addAll(newProducts);
       emit(ProductsLoaded(posts));
     });

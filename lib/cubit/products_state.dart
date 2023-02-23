@@ -5,9 +5,9 @@ abstract class ProductsState {}
 
 class ProductsInitial extends ProductsState {} 
 class ProductsLoading extends ProductsState {
-  List<Product>? oldPosts;
+  List<Product>? oldProducts;
   bool isFirstFethed;
-  ProductsLoading(this.oldPosts, {this.isFirstFethed = false});
+  ProductsLoading(this.oldProducts, {this.isFirstFethed = false});
 } 
 class ProductsLoaded extends ProductsState {
   List<Product>? products;

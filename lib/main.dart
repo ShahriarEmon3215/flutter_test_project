@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_project/views/search_page.dart';
+import 'package:test_project/views/product_search_page.dart';
 
 import 'cubit/products_cubit.dart';
 import 'cubit/product_details_cubit.dart';
